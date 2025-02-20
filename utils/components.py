@@ -9,7 +9,8 @@ from kfp.kubernetes import (
 )
 
 from standalone.standalone import sdg_data_fetch
-from .consts import RHELAI_IMAGE, TOOLBOX_IMAGE, PYTHON_IMAGE
+
+from .consts import PYTHON_IMAGE, RHELAI_IMAGE, TOOLBOX_IMAGE
 
 
 @dsl.container_component
@@ -72,8 +73,12 @@ def ilab_importer_op(repository: str, release: str, base_model: dsl.Output[dsl.M
 
 @dsl.component(base_image=PYTHON_IMAGE)
 def test_judge_teacher_models(cm_name: str, secret_name: str):
-    import json, os, sys, requests, base64
+    import base64
+    import json
+    import os
+    import sys
 
+    import requests
     from kubernetes import client
     from kubernetes.client.rest import ApiException
 
@@ -169,7 +174,8 @@ def test_model_registry(model_registry_endpoint: str):
 
 @dsl.component(base_image=PYTHON_IMAGE)
 def test_training_operator():
-    import os, sys
+    import os
+    import sys
 
     from kubernetes import client
     from kubernetes.client.rest import ApiException
@@ -208,7 +214,11 @@ def test_training_operator():
 
 @dsl.component(base_image=PYTHON_IMAGE)
 def test_oci_model(sdg_base_model: str, sdg_oci_docker_secret: str):
-    import os, json, sys, base64
+    import base64
+    import json
+    import os
+    import sys
+
     from kubernetes import client
     from kubernetes.client.rest import ApiException
 
